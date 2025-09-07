@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse, FileResponse
-from models.movie import Movie, MovieUpdate, MovieCreate
+from src.models.movie_model import Movie, MovieCreate, MovieUpdate
 
 router = APIRouter()
 
