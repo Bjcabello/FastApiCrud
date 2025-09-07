@@ -2,7 +2,10 @@ from fastapi import APIRouter
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse, FileResponse
 from src.models.movie_model import Movie, MovieCreate, MovieUpdate
 
+
 router = APIRouter()
+
+
 
 movies: list[Movie] = []  
 
