@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Body
 from fastapi.responses import HTMLResponse
+from models.movie import Movie, MovieUpdate
 
 
 app = FastAPI()
@@ -16,41 +17,41 @@ def home():
     return "home"
 
 @app.get("/movies", tags=["Movies"])
-def get_movie():
+def get_movie()-> list[Movie]:
     return movies
 
 @app.get("/movies/{id}", tags=["Movies"])
-def get_movie(id: int):
+def get_movie(id: int)-> Movie:
     for movie in movies:
         if movie ['id'] == id:
             return movie
     return []
 
 @app.get("/movies/", tags=["Movies"])
-def get_movie_by_category(category: str, year: int):
+def get_movie_by_category(category: str, year: int)-> Movie:
     for movie in movies:
         if movie ['category'] == category:
             return movie
     return []
 
 @app.post("/movies", tags=["Movies"])
-def create_movie(id: int, title: str , overview: str , year: int , category: str ):
-    movies.append({"id": id, "title": title, "overview": overview, "year": year, "category": category})
+def create_movie(movie: Movie) -> list[Movie]:
+    movies.append(movie.model_dump())
     return movies
 
 @app.put("/movies/{id}", tags=["Movies"])
-def update_movie(id: int, title: str , overview: str , year: int , category: str):
-    for movie in movies:
-        if movie['id'] == id:
-            movie['title'] = title
-            movie['overview'] = overview
-            movie['year'] = year
-            movie['category'] = category
-            return movie
+def update_movie(id: int, movie: MovieUpdate) -> list[Movie]:
+    for item in movies:
+        if item['id'] == id:
+            item['title'] = movie.title
+            item['overview'] = movie.overview
+            item['year'] = movie.year
+            item['category'] = movie.category
+            return movies
     return {"message": "Pelicula no encontrada"}
 
 @app.delete("/movies/{id}", tags=["Movies"])
-def delete_movie(id: int):
+def delete_movie(id: int)-> list[Movie]:
     for movie in movies:
         if movie['id'] == id:
             movies.remove(movie)
